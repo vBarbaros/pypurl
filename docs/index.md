@@ -1,4 +1,4 @@
-## Welcome to `pypulr`
+## Welcome to `pypurl`
 
 ###Provides an easy-to-use solution of generating and handling package URLs (PURLs).
 `TO DO`: more details...
