@@ -4,7 +4,7 @@ To Install:
 `cd pypurl` and 
 `pip3 install -e .`
 
-Run Tests
+Run Tests:
 
 `nosetests`
 or 
