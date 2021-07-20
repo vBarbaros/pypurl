@@ -39,6 +39,10 @@ class PurlUtils:
                 purl_postname = host_list[i].split('@')
                 self.purl_parts['name'] = purl_postname[0]
 
+        if self.purl_parts['type'] == '' or self.purl_parts['namespace'] == '' or self.purl_parts['name'] == '':
+            self.purl_parts = {}
+            return 1
+
         if len(purl_postname) == 2:
             self.purl_parts['version'] = purl_postname[1]
 

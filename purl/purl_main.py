@@ -36,7 +36,7 @@ class Purl:
 
         tmp_lst = purl_list[1].split('?')
         self.utils.parse_host_part(tmp_lst[0])
-        if len(tmp_lst) == 2:
+        if len(tmp_lst) == 2 and self.utils.purl_parts != {}:
             self.utils.parse_params_part(tmp_lst[1])
 
         return self.utils.purl_parts
