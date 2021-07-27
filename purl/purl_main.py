@@ -22,8 +22,9 @@ from purl.purlutils import PurlUtils
 
 
 class Purl:
-    # pkg:github/package-url/purl-spec@244fd47e07d1004f0aed9c
-    # scheme:type/namespace/name@version?qualifiers#subpath
+    """
+
+    """
     def __init__(self):
         self.utils = PurlUtils()
 
@@ -41,7 +42,44 @@ class Purl:
 
         return self.utils.purl_parts
 
-    def to_purl(self, type, namespace, name, version='', qualifiers='', subpath=''):
+    def durl_to_dict(self, download_url, version='', qualifiers='', subpath=''):
+        """
+
+        :param download_url:
+        :param version:
+        :param qualifiers:
+        :param subpath:
+        :return:
+        """
+        durl_list = download_url.split('://')
+        print(durl_list)
+        durl_info_list = durl_list[1].split('/')
+        print(durl_info_list)
+
+        durl_dict = {}
+        durl_dict['scheme'] = 'pkg'
+        durl_dict['type'] = durl_info_list[0].split('.')[0]
+        durl_dict['namespace'] = durl_info_list[1]
+        durl_dict['name'] = durl_info_list[2]
+
+        if version == '' or version is None:
+            return durl_dict
+
+        durl_dict['version'] = version
+
+        if qualifiers == '' or qualifiers is None:
+            return durl_dict
+
+        durl_dict['qualifiers'] =  str(qualifiers)
+
+        if subpath == '' or subpath is None:
+            return durl_dict
+
+        durl_dict['subpath'] = str(subpath)
+        return durl_dict
+
+
+    def params_to_purl(self, type, namespace, name, version='', qualifiers='', subpath=''):
         """
 
         :param type:
@@ -75,4 +113,42 @@ class Purl:
             return purl
 
         purl = purl + '#' + str(subpath)
+        return purl
+
+    def dict_to_purl(self, dict):
+        """
+
+        :param dict:
+        :return:
+        """
+        purl = ''
+        try:
+            if dict['type'] == '' or dict['type'] is None or \
+                    dict['namespace'] == '' or dict['namespace'] is None or \
+                    dict['name'] == '' or dict['name'] is None:
+                return purl
+
+            purl = 'pkg:' + str(dict['type']) + '/' + str(dict['namespace']) + '/' + str(dict['name'])
+        except KeyError:
+            return {}
+
+        try:
+            # add optional params
+            if dict['version'] == '' or dict['version'] is None:
+                return purl
+
+            purl = purl + '@' + str(dict['version'])
+
+            if dict['qualifiers'] == '' or dict['qualifiers'] is None:
+                return purl
+
+            purl = purl + '?' + str(dict['qualifiers'])
+
+            if dict['subpath'] == '' or dict['subpath'] is None:
+                return purl
+
+            purl = purl + '#' + str(dict['subpath'])
+        except KeyError:
+            return purl
+
         return purl

@@ -7,8 +7,8 @@ def read_requirements_file(filename):
     with open(req_file_path) as f:
         return [line.strip() for line in f]
 setup(name='pypurl',
-      version='0.0.1',
-      python_requires='>=3.5',
+      version='0.0.2',
+      python_requires='>=3.6',
       install_requires=read_requirements_file('requirements.txt'),
       description='Implementation of an easy way of building and handling the Package URLs.',
       author='Victor Barbaros',
