@@ -1,8 +1,10 @@
 # Lightweight solution to build / handle Package URLs
 
 ### Install:
-`cd pypurl` and 
-`pip3 install -e .`
+```
+$ cd pypurl 
+$ pip install -e .
+```
 
 ### Run Tests:
 `pytest tests`
@@ -111,3 +113,16 @@ $ python
 {'scheme': 'pkg', 'type': 'github', 'namespace': 'vBarbaros', 'name': 'pypurl', 'version': '244fd47e07d1004f0aed9c', 'qualifiers': 'param1=one&param2=two&param3=three', 'subpath': 'some/dummy/path'}
 
 ```
+
+## Credits
+
+While this module represents a simple exercise of mine based on some struggles I heard of peaople having when working with PURLs, the [purl-specs](https://github.com/package-url/purl-spec) page helped me define the roadmap of this module of mine.
+
+
+## To-do
+- add support for other repositories, besides the currently implemented (GitHub, BitBucket)
+
+
+## [License](https://github.com/vBarbaros/pypurl/blob/main/LICENSE)
+
+MIT © [Victor Barbaros](https://github.com/vBarbaros)
