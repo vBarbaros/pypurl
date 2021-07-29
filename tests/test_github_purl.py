@@ -5,7 +5,7 @@ class GithubPurlTestCase(unittest.TestCase):
     def setUp(self):
         self.purl_obj = Purl()
 
-    def test_github_purl_to_dict_opt_1_success(self):
+    def test_github_purl_to_dict_version_success(self):
         purl_with_version = 'pkg:github/package-url/pypurl-spec@244fd47e07d1004f0aed9c'
         r = self.purl_obj.purl_to_dict(purl_with_version)
         self.assertEqual(r['scheme'], 'pkg')
@@ -14,7 +14,7 @@ class GithubPurlTestCase(unittest.TestCase):
         self.assertEqual(r['name'], 'pypurl-spec')
         self.assertEqual(r['version'], '244fd47e07d1004f0aed9c')
 
-    def test_github_purl_to_dict_opt_2_success(self):
+    def test_github_purl_to_dict_version_qualifier_success(self):
         purl_with_version_qualifiers = 'pkg:github/package-url/pypurl-spec@244fd47e07d1004f0aed9c?param1=one,param2=two'
         r = self.purl_obj.purl_to_dict(purl_with_version_qualifiers)
         self.assertEqual(r['scheme'], 'pkg')
@@ -24,7 +24,7 @@ class GithubPurlTestCase(unittest.TestCase):
         self.assertEqual(r['version'], '244fd47e07d1004f0aed9c')
         self.assertEqual(r['qualifiers'], 'param1=one,param2=two')
 
-    def test_github_purl_to_dict_opt_3_success(self):
+    def test_github_purl_to_dict_version_qualifier_path_success(self):
         purl_with_version_qualifiers_subpath = 'pkg:github/package-url/pypurl-spec@244fd47e07d1004f0aed9c?param1=one,param2=two#/src/main/sub-path'
         r = self.purl_obj.purl_to_dict(purl_with_version_qualifiers_subpath)
         self.assertEqual(r['scheme'], 'pkg')
