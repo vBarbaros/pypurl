@@ -116,7 +116,7 @@ $ python
 
 ## Credits
 
-While this module represents a simple exercise of mine based on some struggles I heard of peaople having when working with PURLs, the [purl-specs](https://github.com/package-url/purl-spec) page helped me define the roadmap of this module of mine.
+While this module represents a simple exercise of mine based on some struggles I heard of people having when working with PURLs, the [purl-specs](https://github.com/package-url/purl-spec) page helped me define the roadmap of this module of mine.
 
 
 ## To-do
