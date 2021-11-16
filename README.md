@@ -11,7 +11,7 @@ $ pip install -e .
 
 ### Main concepts:
 
-The definition for each components is:
+The definition for each component is:
 
 #### scheme 
 ```
@@ -54,11 +54,12 @@ extra subpath within a package, relative to the package root.
 ```
 
 ## Current `type` Support: 
-* GitHub, 
+* GitHub 
+* Gitlab 
 * BitBucket
 
-## How to Use:
 
+## How to Use:
 ```
 # install the package
 $ cd pypurl/
@@ -71,45 +72,45 @@ $ python
 
 # import main module
 >>> from pypurl.purl import Purl
->>> po = Purl()
+>>> p = Purl()
 
 
 # parse the Download URL to dictionary
->>> po.durl_to_dict('https://github.com/vBarbaros/pypurl/archive/refs/heads/main.zip')
+>>> p.durl_to_dict('https://github.com/vBarbaros/pypurl/archive/refs/heads/main.zip')
 {'scheme': 'pkg', 'type': 'github', 'namespace': 'vBarbaros', 'name': 'pypurl'}
 
 
 # obtain the PURL from the Download URL only
 >>> durl = 'https://github.com/vBarbaros/pypurl/archive/refs/heads/main.zip'
->>> po.durl_to_purl(durl)
+>>> p.durl_to_purl(durl)
 'pkg:github/vBarbaros/pypurl'
 
 
 # obtain the PURL from the Download URL + version number/hash-commit
 >>> durl = 'https://github.com/vBarbaros/pypurl/archive/refs/heads/main.zip'
->>> po.durl_to_purl(durl, '244fd47e07d1004f0aed9c')
+>>> p.durl_to_purl(durl, '244fd47e07d1004f0aed9c')
 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c'
 
 
 # obtain the PURL from the Download URL + version number/hash-commit + qualifiers
->>> po.durl_to_purl(durl, '244fd47e07d1004f0aed9c', 'param1=one&param2=two&param3=three')
+>>> p.durl_to_purl(durl, '244fd47e07d1004f0aed9c', 'param1=one&param2=two&param3=three')
 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c?param1=one&param2=two&param3=three'
 
 
 # obtain the PURL from the Download URL + version number/hash-commit + qualifiers + subpath
->>> po.durl_to_purl(durl, '244fd47e07d1004f0aed9c', 'param1=one&param2=two&param3=three', 'some/dummy/path')
+>>> p.durl_to_purl(durl, '244fd47e07d1004f0aed9c', 'param1=one&param2=two&param3=three', 'some/dummy/path')
 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c?param1=one&param2=two&param3=three#some/dummy/path'
 
 
 # parse the PURL containing main fields (+ version) to dictionary
 >>> purl = 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c'
->>> po.purl_to_dict(purl)
+>>> p.purl_to_dict(purl)
 {'scheme': 'pkg', 'type': 'github', 'namespace': 'vBarbaros', 'name': 'pypurl', 'version': '244fd47e07d1004f0aed9c'}
 
 
 # parse the PURL containing all possible fields, to dictionary
 >>> purl = 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c?param1=one&param2=two&param3=three#some/dummy/path'
->>> po.purl_to_dict(purl)
+>>> p.purl_to_dict(purl)
 {'scheme': 'pkg', 'type': 'github', 'namespace': 'vBarbaros', 'name': 'pypurl', 'version': '244fd47e07d1004f0aed9c', 'qualifiers': 'param1=one&param2=two&param3=three', 'subpath': 'some/dummy/path'}
 
 ```
@@ -120,9 +121,9 @@ While this module represents a simple exercise of mine based on some struggles I
 
 
 ## To-do
-- add support for other repositories, besides the currently implemented (GitHub, BitBucket)
+- add support for other repositories, besides the currently implemented (GitHub, Gitlab, BitBucket)
 
 
 ## [License](https://github.com/vBarbaros/pypurl/blob/main/LICENSE)
 
-MIT © [Victor Barbaros](https://github.com/vBarbaros)
+MIT © [Victor Barbaros, 2021](https://github.com/vBarbaros)
