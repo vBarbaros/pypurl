@@ -1,13 +1,10 @@
 # Lightweight solution to build / handle Package URLs
 
-### Install:
-```
-$ cd pypurl 
-$ pip install -e .
-```
-
-### Run Tests:
-`pytest tests`
+## Current `type` Support: 
+* GitHub 
+* Gitlab 
+* BitBucket
+* PyPi
 
 ### Main concepts:
 
@@ -52,11 +49,6 @@ Type-specific.
 ```
 extra subpath within a package, relative to the package root.
 ```
-
-## Current `type` Support: 
-* GitHub 
-* Gitlab 
-* BitBucket
 
 
 ## How to Use:
@@ -115,13 +107,34 @@ $ python
 
 ```
 
+### Install:
+```
+$ cd pypurl 
+$ pip install -e .
+```
+
+### Run Tests:
+```
+$ python -m unittest tests/*.py
+
+# Expected output
+.......................................................................................................
+----------------------------------------------------------------------
+Ran 103 tests in 0.004s
+
+OK
+```
+
+
 ## Credits
 
-While this module represents a simple exercise of mine based on some struggles I heard of people having when working with PURLs, the [purl-specs](https://github.com/package-url/purl-spec) page helped me define the roadmap of this module of mine.
+While this module represents a simple exercise of mine based on some struggles I heard of people having when working 
+with PURLs, the [purl-specs](https://github.com/package-url/purl-spec) page helped me define the roadmap of 
+this module
 
 
-## To-do
-- add support for other repositories, besides the currently implemented (GitHub, Gitlab, BitBucket)
+## TODO
+- add support for other repositories, besides the currently implemented (GitHub, Gitlab, BitBucket, PyPi)
 
 
 ## [License](https://github.com/vBarbaros/pypurl/blob/main/LICENSE)
