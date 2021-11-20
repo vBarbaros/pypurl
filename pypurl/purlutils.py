@@ -1,3 +1,6 @@
+def get_types_no_namespaces():
+    return ['pypi']
+
 def parse_purl(purl, purl_dict):
     purl_list = purl.split(':')
     if len(purl_list) != 2:
@@ -8,20 +11,32 @@ def parse_purl(purl, purl_dict):
     tmp_lst = purl_list[1].split('?')
 
     host_list = tmp_lst[0].split('/')
-    if len(host_list) < 3:
+
+    TYPES_NO_NAMESPACES = get_types_no_namespaces()
+    if host_list[0] in TYPES_NO_NAMESPACES and len(host_list) < 2:
+        return {}
+    elif host_list[0] not in TYPES_NO_NAMESPACES and len(host_list) < 3:
         return {}
 
     purl_postname = []
     for i in range(len(host_list)):
         if i == 0:
             purl_dict['type'] = host_list[i]
-        if i == 1:
+
+        if i == 1 and purl_dict['type'] not in TYPES_NO_NAMESPACES:
             purl_dict['namespace'] = host_list[i]
+        elif i == 1 and purl_dict['type'] in TYPES_NO_NAMESPACES:
+            purl_dict['namespace'] = ''
+            purl_postname = host_list[i].split('@')
+            purl_dict['name'] = purl_postname[0]
+
         if i == 2:
             purl_postname = host_list[i].split('@')
             purl_dict['name'] = purl_postname[0]
 
-    if purl_dict['type'] == '' or purl_dict['namespace'] == '' or purl_dict['name'] == '':
+    if purl_dict['type'] == '' or \
+        (purl_dict['namespace'] == '' and purl_dict['type'] not in TYPES_NO_NAMESPACES) or \
+        purl_dict['name'] == '':
         return {}
 
     if len(purl_postname) == 2:
@@ -46,11 +61,15 @@ def build_host_part(purl_dict):
     purl = ''
     try:
         if purl_dict['type'] == '' or purl_dict['type'] is None or \
-                purl_dict['namespace'] == '' or purl_dict['namespace'] is None or \
+                (purl_dict['namespace'] == '' and purl_dict['type'] not in get_types_no_namespaces()) or \
+                purl_dict['namespace'] is None or \
                 purl_dict['name'] == '' or purl_dict['name'] is None:
             return ''
 
-        purl = 'pkg:' + str(purl_dict['type']) + '/' + str(purl_dict['namespace']) + '/' + str(purl_dict['name'])
+        if purl_dict['type'] not in get_types_no_namespaces():
+            purl = 'pkg:' + str(purl_dict['type']) + '/' + str(purl_dict['namespace']) + '/' + str(purl_dict['name'])
+        else:
+            purl = 'pkg:' + str(purl_dict['type']) + '/' + str(purl_dict['name'])
     except KeyError:
         return ''
     return purl
@@ -97,10 +116,15 @@ def parse_durl(download_url):
 
     if durl_info_list[1] == '':
         return {}
-    purl_dict['namespace'] = durl_info_list[1]
+
+    if purl_dict['type'] in get_types_no_namespaces():
+        purl_dict['namespace'] = ''
+    else:
+        purl_dict['namespace'] = durl_info_list[1]
 
     if durl_info_list[2] == '':
         return {}
+
     purl_dict['name'] = durl_info_list[2]
     return purl_dict
 
@@ -108,11 +132,13 @@ def parse_durl(download_url):
 def build_purl_from_params(type, namespace, name, version, qualifiers, subpath):
     purl = ''
     if type == '' or type is None or \
-            namespace == '' or namespace is None or \
+            (namespace == '' and type not in get_types_no_namespaces()) or namespace is None or \
             name == '' or name is None:
         return purl
-
-    purl = 'pkg:' + str(type) + '/' + str(namespace) + '/' + str(name)
+    if type not in get_types_no_namespaces():
+        purl = 'pkg:' + str(type) + '/' + str(namespace) + '/' + str(name)
+    else:
+        purl = 'pkg:' + str(type) + '/' + str(name)
 
     # add optional params
     if version == '' or version is None:
