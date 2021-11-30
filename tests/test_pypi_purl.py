@@ -5,6 +5,7 @@ from pypurl.purl import Purl
 class PypiPurlTestCase(unittest.TestCase):
     def setUp(self):
         self.purl_obj = Purl()
+        print('Running pypi-repository tests... OK')
 
     def test_pypi_purl_to_dict_version_success(self):
         purl_with_version = 'pkg:pypi/notificationcenter@1.0.0b2'
@@ -47,9 +48,6 @@ class PypiPurlTestCase(unittest.TestCase):
         self.assertEqual(r, {})
 
     def test_pypi_purl_to_dict_no_namespace_success(self):
-        """
-        This use-case represents the optional namespace field in cases of pypi repository.
-        """
         purl_with_version_qualifiers_subpath = 'pkg:pypi/notificationcenter@1.0.0b2?param1=one,param2=two#/src/main/sub-path'
         r = self.purl_obj.purl_to_dict(purl_with_version_qualifiers_subpath)
         self.assertEqual(r['scheme'], 'pkg')
@@ -77,7 +75,6 @@ class PypiPurlTestCase(unittest.TestCase):
 
     def test_pypi_durl_to_dict_all_success(self):
         durl = 'https://pypi.org/project/notificationcenter/1.0.0b2/'
-        'pkg:pypi/notificationcenter@1.0.0b2'
         r = self.purl_obj.durl_to_dict(durl, '1.0.0b2', 'param1=one,param2=two', '/src/main/sub-path')
         self.assertEqual(r['scheme'], 'pkg')
         self.assertEqual(r['type'], 'pypi')
@@ -89,7 +86,6 @@ class PypiPurlTestCase(unittest.TestCase):
 
     def test_pypi_durl_to_dict_version_qualifier_success(self):
         durl = 'https://pypi.org/project/notificationcenter/1.0.0b2/'
-        'pkg:pypi/notificationcenter@1.0.0b2'
         r = self.purl_obj.durl_to_dict(durl, '1.0.0b2', 'param1=one,param2=two')
         self.assertEqual(r['scheme'], 'pkg')
         self.assertEqual(r['type'], 'pypi')
@@ -100,7 +96,6 @@ class PypiPurlTestCase(unittest.TestCase):
 
     def test_pypi_durl_to_dict_version_success(self):
         durl = 'https://pypi.org/project/notificationcenter/1.0.0b2/'
-        'pkg:pypi/notificationcenter@1.0.0b2'
         r = self.purl_obj.durl_to_dict(durl, '1.0.0b2')
         self.assertEqual(r['scheme'], 'pkg')
         self.assertEqual(r['type'], 'pypi')

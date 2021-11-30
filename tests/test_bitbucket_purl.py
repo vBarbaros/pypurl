@@ -1,9 +1,11 @@
 import unittest
 from pypurl.purl import Purl
 
+
 class BitbucketPurlTestCase(unittest.TestCase):
     def setUp(self):
         self.purl_obj = Purl()
+        print('Running BitBucket-repository tests... OK')
 
     def test_bitbucket_purl_to_dict_version_success(self):
         purl_with_version = 'pkg:bitbucket/pypy/numpy@4f9778cd49a4'
@@ -153,7 +155,8 @@ class BitbucketPurlTestCase(unittest.TestCase):
         self.assertEqual(r, p)
 
     def test_bitbucket_params_to_purl_all_success(self):
-        r = self.purl_obj.params_to_purl('bitbucket', 'pypy', 'numpy', '4f9778cd49a4', 'param1=one,param2=two', '/src/main/sub-path')
+        r = self.purl_obj.params_to_purl('bitbucket', 'pypy', 'numpy', '4f9778cd49a4', 'param1=one,param2=two',
+                                         '/src/main/sub-path')
         p = 'pkg:bitbucket/pypy/numpy@4f9778cd49a4?param1=one,param2=two#/src/main/sub-path'
         self.assertEqual(r, p)
 
@@ -171,6 +174,7 @@ class BitbucketPurlTestCase(unittest.TestCase):
         r = self.purl_obj.params_to_purl('bitbucket', 'pypy', 'numpy')
         p = 'pkg:bitbucket/pypy/numpy'
         self.assertEqual(r, p)
+
 
 if __name__ == '__main__':
     unittest.main()

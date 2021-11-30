@@ -43,7 +43,10 @@ def set_type_namespace_name(host_list, purl_dict):
         if i == 1 and purl_dict['type'] not in __get_types_no_namespaces():
             purl_dict['namespace'] = host_list[i]
         elif i == 1 and purl_dict['type'] in __get_types_no_namespaces():
-            purl_dict['namespace'] = ''
+            if len(host_list) == 3:
+                purl_dict['namespace'] = host_list[i]
+            else:
+                purl_dict['namespace'] = ''
             purl_postname = host_list[i].split('@')
             purl_dict['name'] = purl_postname[0]
 
@@ -69,7 +72,7 @@ def build_host_part(purl_dict):
         if check_is_not_valid_type_namespace_name(purl_dict):
             return ''
 
-        if purl_dict['type'] not in __get_types_no_namespaces():
+        if purl_dict['type'] not in __get_types_no_namespaces() or purl_dict['namespace'] != '':
             purl = 'pkg:' + str(purl_dict['type']) + '/' + str(purl_dict['namespace']) + '/' + str(purl_dict['name'])
         else:
             purl = 'pkg:' + str(purl_dict['type']) + '/' + str(purl_dict['name'])
@@ -112,23 +115,31 @@ def parse_durl(download_url):
     purl_dict = {}
     purl_dict['scheme'] = 'pkg'
 
-    type_lst = durl_info_list[0].split('.')
-    if len(type_lst) < 2:
+    type_list = durl_info_list[0].split('.')
+    if len(type_list) < 2:
         return {}
-    purl_dict['type'] = type_lst[0]
+    purl_dict['type'] = __type_from_host(type_list)
+    if not purl_dict['type']:
+        return {}
 
     if durl_info_list[1] == '':
         return {}
 
     if purl_dict['type'] in __get_types_no_namespaces():
-        purl_dict['namespace'] = ''
+        if __is_npm_with_namespace(durl_info_list, purl_dict):
+            purl_dict['namespace'] = durl_info_list[2]
+        else:
+            purl_dict['namespace'] = ''
     else:
         purl_dict['namespace'] = durl_info_list[1]
 
     if durl_info_list[2] == '':
         return {}
 
-    purl_dict['name'] = durl_info_list[2]
+    if __is_npm_with_namespace(durl_info_list, purl_dict):
+        purl_dict['name'] = durl_info_list[3]
+    else:
+        purl_dict['name'] = durl_info_list[2]
     return purl_dict
 
 
@@ -179,5 +190,23 @@ def build_purl_dict_from_params_optionals(purl_dict, version, qualifiers, subpat
     return purl_dict
 
 
+def __is_npm_with_namespace(durl_info_list, purl_dict):
+    return purl_dict['type'] == 'npm' and len(durl_info_list) == 6
+
+
 def __get_types_no_namespaces():
-    return ['pypi']
+    return ['pypi', 'npm']
+
+def __type_from_host(type_list):
+    if 'npmjs' in type_list:
+        return 'npm'
+    elif 'github' in type_list:
+        return 'github'
+    elif 'gitlab' in type_list:
+        return 'gitlab'
+    elif 'pypi' in type_list:
+        return 'pypi'
+    elif 'bitbucket' in type_list:
+        return 'bitbucket'
+    else:
+        return ''

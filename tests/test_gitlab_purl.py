@@ -5,6 +5,7 @@ from pypurl.purl import Purl
 class GitlabPurlTestCase(unittest.TestCase):
     def setUp(self):
         self.purl_obj = Purl()
+        print('Running GitLab-repository tests... OK')
 
     def test_gitlab_purl_to_dict_version_success(self):
         purl_with_version = 'pkg:gitlab/gitlab-org/gitlab-foss@v14.1.8'

@@ -1,9 +1,11 @@
 import unittest
 from pypurl.purl import Purl
 
+
 class GithubPurlTestCase(unittest.TestCase):
     def setUp(self):
         self.purl_obj = Purl()
+        print('Running GitHub-repository tests... OK')
 
     def test_github_purl_to_dict_version_success(self):
         purl_with_version = 'pkg:github/package-url/pypurl-spec@244fd47e07d1004f0aed9c'
@@ -153,12 +155,14 @@ class GithubPurlTestCase(unittest.TestCase):
         self.assertEqual(r, p)
 
     def test_github_params_to_purl_all_success(self):
-        r = self.purl_obj.params_to_purl('github', 'vBarbaros', 'pypurl', '244fd47e07d1004f0aed9c', 'param1=one,param2=two', '/src/main/sub-path')
+        r = self.purl_obj.params_to_purl('github', 'vBarbaros', 'pypurl', '244fd47e07d1004f0aed9c',
+                                         'param1=one,param2=two', '/src/main/sub-path')
         p = 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c?param1=one,param2=two#/src/main/sub-path'
         self.assertEqual(r, p)
 
     def test_github_params_to_purl_version_qualifier_success(self):
-        r = self.purl_obj.params_to_purl('github', 'vBarbaros', 'pypurl', '244fd47e07d1004f0aed9c', 'param1=one,param2=two')
+        r = self.purl_obj.params_to_purl('github', 'vBarbaros', 'pypurl', '244fd47e07d1004f0aed9c',
+                                         'param1=one,param2=two')
         p = 'pkg:github/vBarbaros/pypurl@244fd47e07d1004f0aed9c?param1=one,param2=two'
         self.assertEqual(r, p)
 
@@ -171,6 +175,7 @@ class GithubPurlTestCase(unittest.TestCase):
         r = self.purl_obj.params_to_purl('github', 'vBarbaros', 'pypurl')
         p = 'pkg:github/vBarbaros/pypurl'
         self.assertEqual(r, p)
+
 
 if __name__ == '__main__':
     unittest.main()
