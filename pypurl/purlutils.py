@@ -138,8 +138,14 @@ def parse_durl(download_url):
 
     if __is_npm_with_namespace(durl_info_list, purl_dict):
         purl_dict['name'] = durl_info_list[3]
+    elif __is_pkg_with_name_and_version_combined(purl_dict):
+        purl_dict['name'] = __remove_version_from_name(durl_info_list[-1])
     else:
         purl_dict['name'] = durl_info_list[2]
+
+    if purl_dict['name'] == '':
+        return {}
+
     return purl_dict
 
 
@@ -187,7 +193,18 @@ def build_purl_dict_from_params_optionals(purl_dict, version, qualifiers, subpat
         return purl_dict
 
     purl_dict['subpath'] = str(subpath)
+
     return purl_dict
+
+
+def __remove_version_from_name(combined_name_version):
+    name_parts = combined_name_version.split('-')
+    name_parts_remove_last = [n for n in name_parts if '.gem' not in n]
+    return '-'.join(name_parts_remove_last)
+
+
+def __is_pkg_with_name_and_version_combined(purl_dict):
+    return purl_dict['type'] in ['gem']
 
 
 def __is_npm_with_namespace(durl_info_list, purl_dict):
@@ -195,7 +212,8 @@ def __is_npm_with_namespace(durl_info_list, purl_dict):
 
 
 def __get_types_no_namespaces():
-    return ['pypi', 'npm']
+    return ['pypi', 'npm', 'gem']
+
 
 def __type_from_host(type_list):
     if 'npmjs' in type_list:
@@ -208,5 +226,7 @@ def __type_from_host(type_list):
         return 'pypi'
     elif 'bitbucket' in type_list:
         return 'bitbucket'
+    elif 'rubygems' in type_list:
+        return 'gem'
     else:
         return ''

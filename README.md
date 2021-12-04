@@ -6,6 +6,7 @@
 * BitBucket
 * PyPi
 * npm
+* Ruby Gem
 
 ### Main concepts:
 
@@ -120,7 +121,7 @@ $ python -m unittest tests/*.py
 
 # Expected output
 ...
-Ran 138 tests in 0.009s
+Ran 163 tests in 0.006s
 
 OK
 
@@ -135,7 +136,7 @@ this module
 
 
 ## TODO
-- add support for other repositories, besides the currently implemented (GitHub, Gitlab, BitBucket, PyPi)
+- add support for other repositories, besides the currently implemented (GitHub, Gitlab, BitBucket, PyPi, npm, RubyGem)
 
 
 ## [License](https://github.com/vBarbaros/pypurl/blob/main/LICENSE)
